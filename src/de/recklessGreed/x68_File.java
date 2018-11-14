@@ -2,6 +2,7 @@ package de.recklessGreed;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
@@ -17,7 +18,7 @@ public class x68_File {
     private String name;
 
     x68_File(File codeFile) throws IOException {
-        content = Files.readAllLines(codeFile.toPath(), StandardCharsets.ISO_8859_1);
+        content = Files.readAllLines(codeFile.toPath(), Charset.forName("windows-1252"));
         for(String line : content) {
             text += line + "\n";
         }

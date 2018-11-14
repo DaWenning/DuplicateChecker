@@ -16,18 +16,20 @@ public class Duplicates {
             static int            verboseLevel = 0;
     private static String         extension    = "x68";
             static int            percentage   = 10;
+            static boolean        unzip        = false;
 
     //private static Map<x68_File,x68_File> listOfMatches = new HashMap<>();
     private static List<String> listOfChecked = new ArrayList<>();
 
     public static void main(String[] args) {
+        System.out.println("START OF FILE");
         if (args.length < 1) {
             System.err.println("Not Enough Arguments.");
             printHelp();
             return;
         }
 
-        Boolean error = parseArgs(args);
+        boolean error = parseArgs(args);
         if(error)
             return;
 
@@ -45,7 +47,8 @@ public class Duplicates {
 
 
         verbose(1,"Path: " + parent.getAbsolutePath());
-        unzipAll();
+        if(unzip)
+            unzipAll();
         addFilesToList();
         checkForDuplicates();
     }
@@ -58,7 +61,9 @@ public class Duplicates {
         System.out.println("-e <ext>\t: File Extension \t\t\t [Default: x68]");
         System.out.println("-h\t\t\t: Print this Help Message");
         System.out.println("-(v|vv|vvv)\t: Verbose Level");
+        System.out.println("-u\t\t\t: Unzip the zips in the First Level of PATH");
         System.out.println("-x <int>\t: Detection Percentage\t\t [Default: 10]");
+
     }
 
     private static void unzipAll() {
@@ -179,6 +184,9 @@ public class Duplicates {
             else if (curr.equalsIgnoreCase("-v")) {verboseLevel = 1;}
             else if (curr.equalsIgnoreCase("-vv")) {verboseLevel = 2;}
             else if (curr.equalsIgnoreCase("-vvv")) {verboseLevel = 3;}
+            else if (curr.equalsIgnoreCase("-u")) {
+                unzip = true;
+            }
             else if (curr.equalsIgnoreCase("-h")) {
                 printHelp();
                 return true;
