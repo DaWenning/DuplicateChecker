@@ -41,7 +41,9 @@
         <children>
           <component id="5ba21" class="javax.swing.JTextArea" binding="leftPane">
             <constraints/>
-            <properties/>
+            <properties>
+              <maximumSize width="500" height="2147483647"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -54,7 +56,9 @@
         <children>
           <component id="39aa4" class="javax.swing.JTextArea" binding="rightPane">
             <constraints/>
-            <properties/>
+            <properties>
+              <maximumSize width="500" height="2147483647"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

@@ -16,29 +16,34 @@ public class x68_File {
     private String text = "";
     private String id;
     private String name;
+    Duplicates duplicates;
 
-    x68_File(File codeFile) throws IOException {
+    x68_File(File codeFile, Duplicates duplicates) throws IOException {
+        this.duplicates = duplicates;
         content = Files.readAllLines(codeFile.toPath(), Charset.forName("windows-1252"));
         for(String line : content) {
             text += line + "\n";
         }
-        name = codeFile.getParent().replace(Duplicates.path + "\\", "");
-        this.id = UUID.randomUUID().toString();
+        //System.out.println();
+        System.out.println("Added " + codeFile.getName()
+        );
+        name = codeFile.getParent().replace(duplicates.path + "\\", "");
+        this.id = codeFile.getAbsolutePath();
     }
 
 
     void resemblance(x68_File second) {
         // Check this against another code File in percent!
-        if (Duplicates.verboseLevel > 0)System.out.println(name + " <-> " + second.getName());
+        if (duplicates.verboseLevel > 0)System.out.println(name + " <-> " + second.getName());
         LevenshteinDistance lev = new LevenshteinDistance();
         float levDist = lev.apply(text, second.getText());
-        if (Duplicates.verboseLevel > 0)System.out.println("\t Levenshtein: " + levDist);
+        if (duplicates.verboseLevel > 0)System.out.println("\t Levenshtein: " + levDist);
 
 
         CosineDistance cos = new CosineDistance();
         double cosDist = cos.apply(text, second.getText());
-        if (Duplicates.verboseLevel > 0)System.out.println("\t CosDist: " + cosDist);
-        if (cosDist < (Duplicates.percentage / 100.0)) {
+        if (duplicates.verboseLevel > 0)System.out.println("\t CosDist: " + cosDist);
+        if (cosDist < (duplicates.percentage / 100.0)) {
             new DuplicateScreen(this, second, cosDist);
             System.out.println("CHECK NEEDED: " + name + " <-> " + second.getName());
         }
